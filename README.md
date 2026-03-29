@@ -4,104 +4,142 @@
 ---
 
 ## 📌 Overview
-**The Invisible Bags** is an AI-driven system designed to prevent fraud in government paddy procurement by automatically detecting and counting jute bags using CCTV footage.
+**The Invisible Bags** is an AI-powered system designed to eliminate fraud in government paddy procurement by automatically detecting, tracking, and counting jute bags using CCTV video footage.
 
-It transforms traditional surveillance systems into **active financial verification tools**, ensuring that payments are made only for physically verified stock.
+It transforms existing surveillance systems into **intelligent verification systems**, ensuring that payments are made only for physically verified stock.
 
 ---
 
 ## 🚨 Problem Statement
-Every harvest season, government procurement centers face a major issue:
 
-- Paddy bags are stored in large quantities
-- Manual counting is unreliable and error-prone
-- Bills are generated based on human input
-- Middlemen inflate numbers (e.g., 1200 → 1450 bags)
-- CCTV cameras only record — they don’t verify
+Every harvest season, government procurement centers face a critical issue:
 
-👉 This leads to:
-- Financial loss to government (MSP funds misuse)
-- Fraudulent claims (ghost stock)
-- No accountability or real-time validation
+- Thousands of identical paddy bags are stored in rice mills
+- Physical verification is nearly impossible
+- Bills are generated based on manual input
+- Middlemen inflate bag counts (e.g., 1200 → 1450)
+- CCTV cameras only record activity but do not verify quantities
 
-📎 Source: Hackathon Presentation :contentReference[oaicite:0]{index=0}  
+### ❗ Impact:
+- Crores of public funds are lost
+- MSP schemes are exploited
+- Honest farmers suffer
+- Fraud repeats across districts
+
+---
+
+## 🎯 Motivation
+
+We are solving a **21st-century fraud using 21st-century technology**.
+
+### The Gap:
+- CCTV = Passive monitoring  
+- No verification before payment  
+
+### The Opportunity:
+Transform CCTV into **Active Financial Guardians**
+
+### GenAI Insight:
+Detection alone is not enough →  
+We add **Generative AI** to:
+- Validate discrepancies
+- Generate audit reports
+- Support legal enforcement
 
 ---
 
 ## 💡 Proposed Solution
-We propose **Rice Mill AI Auditor**, an intelligent system that:
 
-- Uses **Computer Vision (YOLOv8 + ByteTrack)** to detect and track bags
-- Counts bags in real-time as they enter the warehouse
-- Compares AI count with manual bill entries
-- Uses **Generative AI** to validate and generate fraud reports
-- Triggers **real-time fraud alerts**
+### 🧠 Rice Mill AI Auditor
 
-👉 Ensures: **"Verify First, Pay Later"**
+An intelligent system that:
 
-📎 Source: Project Description :contentReference[oaicite:1]{index=1}  
+- Detects bags using **YOLOv8**
+- Tracks objects using **ByteTrack**
+- Counts bags crossing a virtual line
+- Compares AI count with manual bill
+- Uses **GenAI** to generate fraud alerts
+- Blocks incorrect payments in real time
+
+👉 **"Verify First, Pay Later"**
 
 ---
 
 ## ⚙️ System Workflow
 
 1. **Bill Registration**
-   - Enter manual bill details (vehicle number, bag count, etc.)
+   - Enter bill number, vehicle details, manual bag count
 
 2. **Video Upload**
-   - Upload CCTV footage of vehicle entry
+   - Upload CCTV footage of truck entry
 
 3. **AI Bag Detection**
-   - Detects and tracks each bag crossing a virtual line
+   - Detect bags using object detection
 
-4. **Counting & Comparison**
+4. **Tracking & Counting**
+   - Track each bag uniquely
+   - Count bags crossing a virtual line
+
+5. **Comparison**
    - AI Count vs Manual Count
 
-5. **Decision**
-   - ✅ Match → VERIFIED  
-   - ❌ Mismatch → FRAUD ALERT  
+6. **Decision Engine**
+   - Match → ✅ VERIFIED  
+   - Mismatch → ❌ FRAUD ALERT  
 
-6. **Dashboard Reporting**
+7. **Dashboard**
    - Pending Bills  
    - Verified Bills  
    - Fraud Alerts  
-   - Complete Audit Logs  
+   - Full audit logs  
 
 ---
 
-## 🎯 Key Features
+## 🏗️ System Architecture (Code Representation)
 
-- 📹 Real-time video-based bag detection
-- 🎯 Accurate counting using object tracking
-- ⚡ Fraud detection & instant alerts
-- 🧾 Automated audit reports (GenAI)
-- 🛡️ Pre-payment verification system
-- 📊 Dashboard for monitoring all transactions
-
----
-
-## 🧠 Tech Stack
-
-### 🔹 AI/ML
-- YOLOv8 (Object Detection)
-- ByteTrack (Object Tracking)
-- OpenCV
-
-### 🔹 Generative AI
-- Fraud report generation
-- Legal notice drafting
-
-### 🔹 Backend
-- Python
-
-### 🔹 Frontend
-- HTML, CSS, JavaScript
-
-### 🔹 Tools
-- Roboflow (dataset & training)
-- Supervision (video processing)
-- GitHub
-
----
-
-## 🏗️ Architecture
+```text
++----------------------+
+|   CCTV Video Input   |
++----------+-----------+
+           |
+           v
++----------------------+
+| Frame Extraction     |
+| (OpenCV)             |
++----------+-----------+
+           |
+           v
++----------------------+
+| Object Detection     |
+| (YOLOv8 Model)       |
++----------+-----------+
+           |
+           v
++----------------------+
+| Object Tracking      |
+| (ByteTrack)          |
++----------+-----------+
+           |
+           v
++----------------------+
+| Bag Counting Logic   |
++----------+-----------+
+           |
+           v
++------------------------------+
+| Comparison Engine            |
+| (Manual Count vs AI Count)   |
++----------+-------------------+
+           |
+   +-------+--------+
+   |                |
+   v                v
++-----------+   +----------------+
+| VERIFIED  |   | FRAUD ALERT ⚠️ |
++-----------+   +----------------+
+           |
+           v
++-------------------------------+
+| Dashboard & Audit Logs        |
+| (Reports + Evidence Storage)  |
++-------------------------------+
