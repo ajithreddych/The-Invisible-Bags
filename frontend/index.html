@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rice Mill AI Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="side-top">
+        <div class="brand">
+          <div class="logo">RM</div>
+          <div>
+            <h1>Rice Mill AI</h1>
+            <p>Verification System</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-page="registration">
+          📝 Bill Registration
+        </button>
+
+        <button class="nav-item" data-page="aiVerification">
+          🎥 AI Verification
+        </button>
+
+        <button class="nav-item" data-page="verifiedBills">
+          ✅ Verified Bills
+        </button>
+
+        <button class="nav-item" data-page="fraudAlerts">
+          🚨 Fraud Alerts
+        </button>
+
+        <button class="nav-item" data-page="allDetails">
+          📊 All Records
+        </button>
+      </nav>
+
+      <div class="side-footer">
+        <div class="status-pill">
+          <span class="dot"></span>
+          Backend: <span id="backendStatus">Checking...</span>
+        </div>
+        <p class="mini-muted">Hackathon Prototype • 2026</p>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div>
+          <h2 id="pageTitle">Bill Registration</h2>
+          <p id="pageSub">Register procurement bill details for AI verification.</p>
+        </div>
+
+        <button class="mobile-menu" id="mobileMenuBtn">☰</button>
+      </header>
+
+      <!-- PAGES -->
+
+      <!-- 1) REGISTRATION PAGE -->
+      <section class="page active" id="registration">
+
+        <div class="card">
+          <h3>Register Procurement Bill</h3>
+          <p class="subtext">
+            Enter all required bill details. Bill will be saved as <b>PENDING</b>.
+          </p>
+
+          <form id="billForm" class="form-grid">
+
+            <div class="field">
+              <label>Bill Number</label>
+              <input type="text" name="bill_no" placeholder="BILL-2026-001" required />
+            </div>
+
+            <div class="field">
+              <label>Bill Date</label>
+              <input type="datetime-local" name="bill_date" required />
+            </div>
+
+            <div class="field">
+              <label>Farmer ID</label>
+              <input type="text" name="farmer_id" placeholder="FARMER-101" required />
+            </div>
+
+            <div class="field">
+              <label>Trader ID</label>
+              <input type="text" name="trader_id" placeholder="TRADER-22" required />
+            </div>
+
+            <div class="field">
+              <label>Mill ID</label>
+              <input type="text" name="mill_id" placeholder="MILL-01" required />
+            </div>
+
+            <div class="field">
+              <label>Vehicle Number</label>
+              <input type="text" name="vehicle_no" placeholder="AP 01 AB 1234" required />
+            </div>
+
+            <div class="field">
+              <label>Manual Bag Count</label>
+              <input type="number" name="manual_bag_count" placeholder="e.g. 50" min="1" required />
+            </div>
+
+            <div class="field">
+              <label>Total Weight (kg)</label>
+              <input type="number" name="manual_total_weight" placeholder="e.g. 2500" min="1" required />
+            </div>
+
+            <div class="field full">
+              <label>Net Weight per Bag (kg)</label>
+              <input type="number" name="net_weight_per_bag" placeholder="e.g. 50" min="1" required />
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn-primary">Submit Bill</button>
+              <button type="reset" class="btn-outline">Clear</button>
+            </div>
+
+            <div id="messageBox" class="message hidden"></div>
+          </form>
+        </div>
+
+      </section>
+
+      <!-- 2) AI VERIFICATION PAGE -->
+      <section class="page" id="aiVerification">
+      <div class="grid-2">
+
+          <!-- LEFT: Pending Bills -->
+          <div class="card">
+          <div class="card-row">
+              <div>
+              <h3>Pending Bills (Not Verified)</h3>
+              <p class="subtext">Select a bill to run AI bag counting from video.</p>
+              </div>
+              <button type="button" class="btn-outline small" id="refreshBillsBtn">↻ Refresh</button>
+          </div>
+
+          <div class="search-wrap">
+              <input
+              type="text"
+              id="billSearch"
+              placeholder="Search by Bill Number..."
+              />
+          </div>
+
+          <div id="pendingBillsList" class="list">
+              <!-- bills will load here -->
+          </div>
+          </div>
+
+          <!-- RIGHT: Verification Panel -->
+          <div class="card">
+          <h3>AI Verification Panel</h3>
+          <p class="subtext">
+              Upload entry video for the selected bill. AI will count bags and estimate weight.
+          </p>
+
+          <div id="selectedBillBox" class="selected-box">
+              <div class="muted-center">
+              Select a bill from the left side to continue.
+              </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div id="aiVerifyForm" class="verify-form" onsubmit="return false;">
+              <label class="file-label">
+              Upload Entry Video (MP4)
+              <input type="file" id="videoInput" accept="video/mp4,video/*" />
+              </label>
+
+              <button type="button" class="btn-primary" id="runAiBtn" disabled>
+              Run AI Bag Counting
+              </button>
+
+              <!-- OUTPUT MESSAGE -->
+              <div id="aiMessage" class="message hidden"></div>
+
+              <!-- RESULT BOX -->
+              <div id="aiResultBox" class="result-box hidden">
+              <h4>AI Results</h4>
+
+              <div class="result-grid">
+                  <div class="result-item">
+                  <span class="label">AI Bag Count</span>
+                  <span class="value" id="aiBagCount">-</span>
+                  </div>
+
+                  <div class="result-item">
+                  <span class="label">AI Total Weight (kg)</span>
+                  <span class="value" id="aiTotalWeight">-</span>
+                  </div>
+
+                  <div class="result-item">
+                  <span class="label">Manual Bag Count</span>
+                  <span class="value" id="manualBagCount">-</span>
+                  </div>
+
+                  <div class="result-item">
+                  <span class="label">Manual Total Weight (kg)</span>
+                  <span class="value" id="manualTotalWeight">-</span>
+                  </div>
+
+                  <div class="result-item full">
+                  <span class="label">Difference (Manual - AI)</span>
+                  <span class="value" id="diffCount">-</span>
+                  </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+
+      </div>
+      </section>
+
+
+<!-- 3) VERIFIED BILLS PAGE -->
+<section class="page" id="verifiedBills">
+  <div class="card">
+    <div class="card-row">
+      <div>
+        <h3>Verified Bills</h3>
+        <p class="subtext">Bills where Manual Count matches AI Count.</p>
+      </div>
+      <button type="button" class="btn-outline small" id="refreshVerifiedBtn">↻ Refresh</button>
+    </div>
+
+    <div class="search-wrap">
+      <input type="text" id="verifiedSearch" placeholder="Search by Bill Number..." />
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table" id="verifiedTable">
+        <thead>
+          <tr>
+            <th>Bill No</th>
+            <th>Vehicle</th>
+            <th>Manual Bags</th>
+            <th>AI Bags</th>
+            <th>Difference</th>
+            <th>Status</th>
+            <th>Verified Time</th>
+          </tr>
+        </thead>
+        <tbody id="verifiedBody">
+          <tr>
+            <td colspan="7" class="muted-td">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 4) FRAUD ALERTS PAGE -->
+<section class="page" id="fraudAlerts">
+  <div class="card">
+    <div class="card-row">
+      <div>
+        <h3>Fraud Alerts</h3>
+        <p class="subtext">Bills with mismatched bag count or suspicious activity.</p>
+      </div>
+      <button type="button" class="btn-outline small" id="refreshFraudBtn">↻ Refresh</button>
+    </div>
+
+    <div class="search-wrap">
+      <input type="text" id="fraudSearch" placeholder="Search by Bill Number..." />
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table" id="fraudTable">
+        <thead>
+          <tr>
+            <th>Bill No</th>
+            <th>Vehicle</th>
+            <th>Manual Bags</th>
+            <th>AI Bags</th>
+            <th>Difference</th>
+            <th>Alert</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody id="fraudBody">
+          <tr>
+            <td colspan="7" class="muted-td">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <!-- FRAUD DETAILS BOX -->
+    <div id="fraudDetailsBox" class="fraud-details hidden">
+      <h4>Fraud Details</h4>
+      <p class="fraud-sub">Select a fraud row to see complete reason and details.</p>
+
+      <div class="fraud-grid">
+        <div class="fraud-item"><span class="k">Bill No</span><span class="v" id="fdBill">-</span></div>
+        <div class="fraud-item"><span class="k">Vehicle</span><span class="v" id="fdVehicle">-</span></div>
+        <div class="fraud-item"><span class="k">Manual Bags</span><span class="v" id="fdManual">-</span></div>
+        <div class="fraud-item"><span class="k">AI Bags</span><span class="v" id="fdAi">-</span></div>
+        <div class="fraud-item"><span class="k">Difference</span><span class="v" id="fdDiff">-</span></div>
+        <div class="fraud-item"><span class="k">Severity</span><span class="v" id="fdSeverity">-</span></div>
+
+        <div class="fraud-item full">
+          <span class="k">Fraud Reason / Message</span>
+          <span class="v big" id="fdMessage">-</span>
+        </div>
+
+        <div class="fraud-item full">
+          <span class="k">Alert Time</span>
+          <span class="v" id="fdTime">-</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 5) ALL DETAILS PAGE -->
+<section class="page" id="allDetails">
+  <div class="card">
+    <div class="card-row">
+      <div>
+        <h3>All Records</h3>
+        <p class="subtext">Complete view of Bills + AI + reconciliation + alerts.</p>
+      </div>
+      <button type="button" class="btn-outline small" id="refreshAllBtn">↻ Refresh</button>
+    </div>
+
+    <div class="search-wrap">
+      <input
+        type="text"
+        id="allSearch"
+        placeholder="Search by Bill / Farmer / Trader / Vehicle..."
+      />
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table" id="allTable">
+        <thead>
+          <tr>
+            <th>Bill No</th>
+            <th>Farmer</th>
+            <th>Trader</th>
+            <th>Vehicle</th>
+            <th>Manual Bags</th>
+            <th>AI Bags</th>
+            <th>Diff</th>
+            <th>Status</th>
+            <th>Updated</th>
+          </tr>
+        </thead>
+        <tbody id="allBody">
+          <tr>
+            <td colspan="9" class="muted-td">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+      <footer class="footer">
+        © 2026 Rice Mill AI • Government Procurement Verification System
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rice Mill AI - Government Procurement System</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, #f5fdf6, #e6f4ea);
+  color: #1f2937;
+  overflow-x: hidden;
+}
+
+/* ===== TOP TITLE ===== */
+.top-title {
+  text-align: center;
+  padding: 50px 0 0px 0;
+  font-size: 60px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #14532d;
+}
+
+.top-title span {
+  color: #15803d;
+}
+
+/* HERO SECTION */
+.hero {
+  min-height: 85vh; /* reduced from 100vh */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 8% 20px 8%; /* reduced bottom padding */
+  position: relative;
+}
+
+/* LEFT CONTENT */
+.hero-content {
+  max-width: 600px;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #166534;
+}
+
+.hero h1 span {
+  color: #15803d;
+}
+
+.hero p {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  margin-top: 30px;
+}
+
+.btn-primary {
+  padding: 14px 28px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(22,163,74,0.3);
+}
+
+/* RIGHT IMAGE */
+.hero-image {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 30px; /* slightly more rounded */
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+/* FEATURE SECTION */
+.features {
+  padding: 10px 8%; /* reduced from 100px */
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 36px;
+  color: #166534;
+  margin-bottom: 15px;
+}
+
+.features p {
+  color: #4b5563;
+  margin-bottom: 40px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.feature-card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Rounded bottom images */
+.feature-card img {
+  width: 80px;
+  margin-bottom: 20px;
+  border-radius: 50%; /* fully rounded */
+  padding: 10px;
+  background: #f0fdf4;
+}
+
+.feature-card h3 {
+  color: #15803d;
+  margin-bottom: 15px;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 30px;
+  background: #166534;
+  color: white;
+  margin-top: 40px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-image {
+    width: 100%;
+    margin-top: 30px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP TITLE -->
+<div class="top-title">
+  THE <span>INVISIBLE</span> BAGS
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>
+      Smart AI Verification for <span>Rice Procurement</span>
+    </h1>
+    <p>
+      Empowering farmers and government procurement centers with AI-powered
+      bag counting and fraud detection. Ensuring transparency,
+      fairness, and trust in every harvest season.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="index.html" class="btn-primary">Get Started →</a>
+    </div>
+  </div>
+
+  <div class="hero-image">
+    <img src="pexels-pixabay-235731.jpg" alt="Rice Farmer in Field">
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <h2>Why Rice Mill AI?</h2>
+  <p>
+    A transparent, intelligent, and reliable system for modern agricultural procurement.
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <img src="f6f0c990-c1b7-4595-9dff-91dd7a51d2af_medium.webp" alt="">
+      <h3>AI Bag Counting</h3>
+      <p>Computer vision powered bag detection ensures accurate procurement counts.</p>
+    </div>
+
+    <div class="feature-card">
+      <img src="1_8bx5Z6-ArEYR001Y9mctIg.jpg" alt="">
+      <h3>Fraud Detection</h3>
+      <p>Automatic mismatch detection prevents manipulation and protects farmers.</p>
+    </div>
+
+    <div class="feature-card">
+      <img src="images.png" alt="">
+      <h3>Government Transparency</h3>
+      <p>Real-time dashboards ensure fair and accountable procurement processes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 Rice Mill AI • Government Procurement Verification System
+</div>
+
+</body>
+</html>
